@@ -68,13 +68,20 @@ export class MCPServer {
       };
     });
 
+    // Define interface for tool arguments
+    interface ToolArguments {
+      command?: string;
+      params?: Record<string, any>;
+    }
+
     // Execute tool (agent)
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const { name, arguments: args } = request.params;
+      const toolArgs = args as ToolArguments;
 
       const result = await this.registry.execute(name, {
-        command: (args as any).command || 'execute',
-        params: (args as any).params || {},
+        command: toolArgs.command || 'execute',
+        params: toolArgs.params || {},
       });
 
       return {

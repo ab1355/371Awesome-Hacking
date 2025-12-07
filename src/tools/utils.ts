@@ -107,7 +107,20 @@ export function validateIP(ip: string): boolean {
     });
   }
   
-  // IPv6 validation (basic check - supports compressed format)
-  const ipv6Regex = /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:)*::([0-9a-fA-F]{1,4}:)*)$/;
-  return ipv6Regex.test(ip);
+  // IPv6 validation (supports full and compressed formats)
+  // Handles cases like ::1, fe80::, 2001:db8::1, etc.
+  const ipv6Patterns = [
+    /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4})$/, // Full format
+    /^::([0-9a-fA-F]{1,4}:){0,6}[0-9a-fA-F]{1,4}$/, // ::xxxx
+    /^([0-9a-fA-F]{1,4}:){1,7}:$/, // xxxx::
+    /^([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}$/, // xxxx::xxxx
+    /^([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}$/, // xxxx::xxxx:xxxx
+    /^([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}$/, // etc
+    /^([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}$/,
+    /^([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}$/,
+    /^[0-9a-fA-F]{1,4}:(:[0-9a-fA-F]{1,4}){1,6}$/,
+    /^::$/, // Special case for ::
+  ];
+  
+  return ipv6Patterns.some(pattern => pattern.test(ip));
 }
