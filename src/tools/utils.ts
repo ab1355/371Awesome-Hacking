@@ -26,13 +26,13 @@ export class ToolExecutor {
     const startTime = Date.now();
     let lastError: Error | undefined;
 
-    for (let attempt = 0; attempt < this.config.retries!; attempt++) {
+    for (let attempt = 0; attempt < (this.config.retries || 3); attempt++) {
       try {
         if (this.config.verbose && description) {
           console.log(`[${attempt + 1}/${this.config.retries}] ${description}`);
         }
 
-        const result = await this.executeWithTimeout(fn, this.config.timeout!);
+        const result = await this.executeWithTimeout(fn, this.config.timeout || 30000);
         
         if (this.config.verbose) {
           const duration = Date.now() - startTime;
@@ -47,7 +47,7 @@ export class ToolExecutor {
           console.log(`✗ Attempt ${attempt + 1} failed: ${lastError.message}`);
         }
 
-        if (attempt < this.config.retries! - 1) {
+        if (attempt < (this.config.retries || 3) - 1) {
           const delay = Math.min(1000 * Math.pow(2, attempt), 10000);
           await this.sleep(delay);
         }
@@ -98,7 +98,16 @@ export function validateDomain(domain: string): boolean {
 }
 
 export function validateIP(ip: string): boolean {
-  const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
-  const ipv6Regex = /^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
-  return ipv4Regex.test(ip) || ipv6Regex.test(ip);
+  // IPv4 validation with proper range checking
+  const ipv4Parts = ip.split('.');
+  if (ipv4Parts.length === 4) {
+    return ipv4Parts.every(part => {
+      const num = parseInt(part, 10);
+      return !isNaN(num) && num >= 0 && num <= 255 && part === num.toString();
+    });
+  }
+  
+  // IPv6 validation (basic check - supports compressed format)
+  const ipv6Regex = /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:)*::([0-9a-fA-F]{1,4}:)*)$/;
+  return ipv6Regex.test(ip);
 }
