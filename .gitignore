@@ -6,7 +6,6 @@ yarn.lock
 # Build output
 dist/
 build/
-*.js
 *.d.ts
 *.js.map
 
@@ -41,3 +40,6 @@ coverage/
 tmp/
 temp/
 *.tmp
+
+# Allow example JavaScript files
+!examples/**/*.js
