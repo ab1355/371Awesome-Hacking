@@ -1,10 +1,154 @@
 ![Awesome Hacking](awesome_hacking.jpg)
 
-# [Awesome Hacking](https://github.com/Hack-with-Github/Awesome-Hacking) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Awesome%20Hacking%20-%20a%20collection%20of%20awesome%20lists%20for%20hackers%20and%20pentesters%20by%20@HackwithGithub&url=https://github.com/Hack-with-Github/Awesome-Hacking&hashtags=security,hacking)
+# Awesome Hacking Agent SDK
 
-**A collection of awesome lists for hackers, pentesters & security researchers.**
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)](https://www.typescriptlang.org/)
 
-Your [contributions](contributing.md) are always welcome !
+**An Agent SDK with Model Context Protocol (MCP) support for security research and hacking tools.**
+
+This repository provides a modular framework for building and deploying security research agents with MCP integration, enabling seamless interaction with AI assistants and automation tools.
+
+## 🚀 Features
+
+- **Agent SDK**: Extensible framework for building custom security agents
+- **MCP Server**: Full Model Context Protocol support for AI integration
+- **Pre-built Agents**: Ready-to-use agents for security scanning and reconnaissance
+- **TypeScript**: Type-safe development with modern JavaScript features
+- **Modular Architecture**: Easy to extend and customize
+
+## 📦 Installation
+
+```bash
+npm install
+npm run build
+```
+
+## 🔧 Quick Start
+
+### Using the SDK
+
+```typescript
+import { createDefaultRegistry, AgentRegistry } from 'awesome-hacking-agent-sdk';
+
+// Create a registry with default agents
+const registry = createDefaultRegistry();
+
+// Execute a security scan
+const result = await registry.execute('security-scan', {
+  command: 'port-scan',
+  params: { target: '192.168.1.1' }
+});
+
+console.log(result);
+```
+
+### Running the MCP Server
+
+```bash
+npm run mcp-server
+```
+
+The MCP server will start on stdio, ready to accept MCP protocol messages.
+
+## 🤖 Available Agents
+
+See [AGENTS.md](AGENTS.md) for detailed documentation on all available agents.
+
+### Security Scanner Agent
+- Port scanning
+- Vulnerability assessment
+- Web application security scanning
+- SSL/TLS certificate validation
+
+### Reconnaissance Agent
+- DNS lookups
+- WHOIS queries
+- Subdomain enumeration
+- Technology detection
+
+## 🛠️ Creating Custom Agents
+
+```typescript
+import { BaseAgent, AgentInput, AgentOutput } from 'awesome-hacking-agent-sdk';
+
+export class CustomAgent extends BaseAgent {
+  constructor() {
+    super({
+      id: 'custom-agent',
+      name: 'Custom Security Agent',
+      description: 'Your custom agent description',
+      version: '1.0.0',
+      capabilities: ['feature1', 'feature2'],
+    });
+  }
+
+  async execute(input: AgentInput): Promise<AgentOutput> {
+    // Your agent logic here
+    return this.createOutput(true, { result: 'success' });
+  }
+}
+```
+
+## 📚 Documentation
+
+- [Agents Documentation](AGENTS.md) - Detailed agent specifications
+- [API Reference](docs/API.md) - Coming soon
+- [Examples](examples/) - Coming soon
+
+## 🔌 MCP Integration
+
+This SDK implements the Model Context Protocol, allowing seamless integration with AI assistants like Claude, GPT-4, and other MCP-compatible clients.
+
+### MCP Configuration Example
+
+```json
+{
+  "mcpServers": {
+    "awesome-hacking": {
+      "command": "node",
+      "args": ["dist/mcp-server.js"],
+      "cwd": "/path/to/awesome-hacking-agent-sdk"
+    }
+  }
+}
+```
+
+## 🧪 Development
+
+```bash
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+
+# Run in development mode
+npm run dev
+
+# Run linter
+npm run lint
+
+# Run tests
+npm test
+```
+
+## 🤝 Contributing
+
+Your [contributions](contributing.md) are always welcome! Please feel free to submit pull requests or open issues.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## ⚠️ Disclaimer
+
+This SDK is intended for legal security research and educational purposes only. Always ensure you have explicit permission before testing any systems you do not own.
+
+---
+
+## 📖 Original Awesome Lists
 
 ## Awesome Repositories
 

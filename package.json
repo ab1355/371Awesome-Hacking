@@ -1,0 +1,40 @@
+{
+  "name": "awesome-hacking-agent-sdk",
+  "version": "1.0.0",
+  "description": "Agent SDK with Model Context Protocol (MCP) support for security research and hacking tools",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "jest",
+    "lint": "eslint src --ext .ts",
+    "mcp-server": "node dist/mcp-server.js"
+  },
+  "keywords": [
+    "hacking",
+    "security",
+    "agent",
+    "sdk",
+    "mcp",
+    "model-context-protocol"
+  ],
+  "author": "Awesome Hacking Contributors",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "jest": "^29.7.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
